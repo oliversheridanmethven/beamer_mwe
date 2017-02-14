@@ -1,0 +1,36 @@
+\mode<presentation>
+
+
+% Frame title
+\defbeamertemplate*{frametitle}{InFoMM}[1][]
+{
+%\vskip1cm%
+%\leavevmode
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.1cm]{frametitle} 
+  \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+  \ifx\insertframesubtitle\@empty%
+      {\node[anchor=west, oxblue,font=\large] at (1.2,0.61){\insertframetitle};}
+      \else%
+      {\node[anchor= west, oxblue,font=\large] at (1.2,0.81){\insertframetitle};%
+       \node[anchor= west, oxblue,font=\small] at (1.2,0.41){\insertframesubtitle};}%
+      \fi
+  \end{tikzpicture}
+  \end{beamercolorbox}
+}
+
+% Footline
+\defbeamertemplate*{footline}{InFoMM}
+{%
+  \leavevmode%
+  \hbox{
+  \begin{tikzpicture}
+  \useasboundingbox (0,0) rectangle(\the\paperwidth,1);
+  \draw[shadeblue, ultra thin] (11.6mm,6mm) -- (126mm,6mm);
+  \node[anchor= south west, oxblue,font=\fontsize{2.95mm}{1em}\selectfont] at (11.6mm,1mm){EPSRC Centre for Doctoral Training in Industrially Focused Mathematical Modelling};%
+  \end{tikzpicture}
+  }
+}
+
+
+\mode<all>

@@ -1,0 +1,59 @@
+\usepackage{graphicx}
+\usepackage{ragged2e}   
+
+
+\usefonttheme{serif}
+
+\justifying
+\addtobeamertemplate{block begin}{}{\justifying}
+
+\hbadness=1000 % Supresses bad box warnings
+
+% Gives the nicer SQRT symbol.
+\usepackage{letltxmacro} 
+\makeatletter
+\let\oldr@@t\r@@t
+\def\r@@t#1#2{%
+	\setbox0=\hbox{$\oldr@@t#1{#2\,}$}\dimen0=\ht0
+	\advance\dimen0-0.2\ht0
+	\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+	{\box0\lower0.4pt\box2}}
+\LetLtxMacro{\oldsqrt}{\sqrt}
+\renewcommand*{\sqrt}[2][\ ]{\oldsqrt[#1]{#2}}
+\makeatother
+
+
+% Makes beamer lists nicely justified
+\makeatletter
+\renewcommand{\itemize}[1][]{%
+	\beamer@ifempty{#1}{}{\def\beamer@defaultospec{#1}}%
+	\ifnum \@itemdepth >2\relax\@toodeep\else
+	\advance\@itemdepth\@ne
+	\beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+	\usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+	\usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+	\usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+	\list
+	{\usebeamertemplate{itemize \beameritemnestingprefix item}}
+	{\def\makelabel##1{%
+			{%
+				\hss\llap{{%
+						\usebeamerfont*{itemize \beameritemnestingprefix item}%
+						\usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+			}%
+		}%
+	}
+	\fi%
+	\beamer@cramped%
+	\justifying% NEW
+	%\raggedright% ORIGINAL
+	\beamer@firstlineitemizeunskip%
+}
+\makeatother
+
+%\setlength{\parindent}{15mm}
+% Hopefully this avoids words being hyphenated
+\pretolerance=1000
+\tolerance=1000 
+\emergencystretch=10pt
+
