@@ -1,20 +1,73 @@
-\documentclass{beamer}
+\documentclass[8pt]{beamer}
 
 \input{presentation_preamble}
 \usetheme{InFoMM}
+\input{preamble}
 
-\title{Stochastic Partial Differential Equation Modelling of Agency Mortgage-Backed Securities}
-\date{July 2016}
+
+\title{Simulating networks using Markov evolution}
+\date{February 2017}
 \author{Oliver Sheridan-Methven}
 
+\newcommand{\clique}{\mathbbm{1}}
 
+\usepackage[percent]{overpic}
+\usepackage[export]{adjustbox}
 
 
 \begin{document}
 \maketitle
 
-\begin{frame}{Problem outline}
-	content...
+\begin{frame}{Problem description}
+	We simulate the equilibrium states of undirected networks which evolve through a Markov process. The adjacency matrix $ A_n $ of size $ N \times N $  with $ 2 \le N $ evolves in expectation through 
+	\begin{equation}
+	\bra{A_{n+1}}\ket{A_n} = \left(\clique - \omega(A_n) \right)\circ A_n + (\clique - A_n)\circ \alpha(A_n)
+	\end{equation}
+	where $ \clique $ represents the clique matrix, $ \omega(A_n) = \bar{\omega} \clique $, and $ \alpha(A_n) = \delta \clique + \epsilon A_n^2 \circ \clique $. As $ n $ becomes very large we have $ \lim_{1 \ll n} \expval{A_n}  \to p_n \clique $ where $ p_n $ evolves through
+	\begin{equation}
+	\label{eqt:probability_evolution}
+	p_{n+1} = (1 - \bar{\omega})p_n + (1-p_n)(\delta + \varepsilon(N-2) p_n^2)
+	\end{equation}
+	under the constraints $ 0 < \bar{\omega} < 1 $, $ 0 < \delta $, $ 0 < \varepsilon $, and $ 0 < \delta + \varepsilon (N-2) < 1 $.
 \end{frame}
+
+\begin{frame}{Steady state equilibria solutions}
+	We wish to find the steady state solution to \eqref{eqt:probability_evolution}, which involves finding the roots to 
+	\begin{equation}
+	\label{eqt:p_roots}
+		0 = \delta - (\bar{\omega} + \delta)p + \bar{\varepsilon}p^2 -  \bar{\varepsilon}p^3
+	\end{equation}
+	where $ \bar{\varepsilon} =\varepsilon(N-2) $. We can construct solutions to this by expressing \eqref{eqt:p_roots} as 
+	\begin{equation}
+	\label{eqt:p_roots_construction}
+	0 = \gamma (\alpha' + \beta' + p^2 - p^3) = \gamma (p - a)(p - b)(p - c)
+	\end{equation}
+	where we specify some $ 0< a< b< c< 1 $. Equating the coefficients in \eqref{eqt:p_roots} and \eqref{eqt:p_roots_construction} gives 
+	\begin{align}
+	a + b + c & = 1  \label{eqt:abc_1}\\
+	ab + ac + bc & = -\beta' \label{eqt:abc_beta} \\
+	abc & = \alpha' \label{eqt:abc_alpha}.
+	\end{align}
+	We now choose some $ 0< \varkappa < 1$ and set $ \varkappa = \delta + \bar{\varepsilon} $. We substitute \eqref{eqt:abc_1}-\eqref{eqt:abc_alpha} into \eqref{eqt:p_roots} to give
+	\begin{align}
+	\epsilon & = \dfrac{\varkappa}{(1 + \alpha')(N-2)} \\
+	\delta & = \dfrac{\varkappa\alpha'}{1 + \alpha'} \\
+	\bar{\omega} & = -\dfrac{\varkappa(\beta' + \alpha')}{1 + \alpha'}
+	\end{align}
+	where it remains to verify \emph{a posteriori} that $ p_{n+1} \in [0, 1] \quad \forall p_n \in [0, 1]$.
+\end{frame}
+
+
+\begin{frame}{Simulations}
+\begin{figure}[t]
+	\centering
+\begin{overpic}[height=62mm]{comparison_of_prediction_and_simulation} 
+\put(54,38){\includegraphics[height=20.5mm, trim={20mm 13mm 20mm 13mm}, clip=true, frame]{tunnelling_into_unstable_minimal}}
+\end{overpic}	
+\caption{Simulations of $ A \in \mathbb{R}^{200\times 200}$ matrices using $ \varepsilon \approx 0.0100 $, $ \bar{\omega} \approx 0.265 $, and $ \delta \approx 0.0196 $. Stable equilibria are at $ a = 0.1$, $  c = 0.5 $, and an instability at $ b=0.4 $, where $ \Gamma $ passes through $ b $. Solid lines are simulations of $ A $, and dotted lines are the expected trajectories from the initial conditions. (\textbf{Inset}) Simulations using $ A \in \mathbb{R}^{100\times 100}$.}
+\label{fig:simulation}
+\end{figure}
+\end{frame}
+
 
 \end{document}
