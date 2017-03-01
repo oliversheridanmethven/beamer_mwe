@@ -5,7 +5,7 @@
 \usepackage{bbm} % Gives Blackboard fonts.
 \usepackage{bm} % Bold math symbols.
 \usepackage[margin=0pt,font=small,labelfont=bf,labelsep=endash, justification=justified]{caption} % Caption figures and tables nicely.\\
-\usepackage{enumitem} % Nice listing options in itemize and enumerate.
+%\usepackage{enumitem} % Nice listing options in itemize and enumerate. % Causes issues with coloured bullets in beamer.
 \usepackage{esdiff} % Gives nice differential operators.
 \usepackage{esvect} % Gives nice vector arrows.
 \usepackage{float} % Nice figure placement.
@@ -47,9 +47,6 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
-% To change the spacing in lists
-\setlist{noitemsep} % or \setlist{noitemsep} to leave space around whole list
-%\setenumerate{itemsep=-0.4em,topsep=0.5em} % Seems to look nice.
 
 % Custom column widths using C{2cm}, L, R, etc.
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
