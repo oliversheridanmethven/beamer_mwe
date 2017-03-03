@@ -1,44 +1,5 @@
 \mode<presentation>
-
-\setbeamertemplate{background}{
-
-  \begin{tikzpicture}
-  \useasboundingbox (0,0) rectangle(\paperwidth,\paperheight);
-  \fill[color=oxblue] (0,0) rectangle(11.6mm,96mm);
-  \node[anchor= west, white,font=\large, rotate=90] at (5.8mm,3mm){Mathematical Institute};%
-  \node[anchor= east, white,font=\large, rotate=90] at (5.8mm,93mm){University of Oxford};%
-  \shade[left color=shadeblue,right color=white] (11.6mm,96mm) rectangle(91.2mm,84.4mm);
-  \node[anchor=south east,inner sep=2] at (126mm,84.4mm)
-                {\includegraphics[height=10mm, keepaspectratio]{InFoMM.eps}};
-  \end{tikzpicture}
-}
-
-% Title page
-\defbeamertemplate*{title page}{InFoMM}[1][]
-{ 
-\vskip3cm%
-\begin{minipage}{2mm}
-\hfill
-\end{minipage}
-\begin{beamercolorbox}[wd=12cm,leftskip=11.6mm,center,#1]{title page header}
-  	\usebeamerfont{title}\inserttitle\par%
-\end{beamercolorbox}%
-\vskip0.75cm%
-\begin{minipage}{2mm}
-	\hfill
-\end{minipage}
-\begin{beamercolorbox}[wd=12cm,leftskip=11.6mm,center,#1]{author}
-  	\usebeamerfont{author}\insertauthor%
-\end{beamercolorbox}
-\vskip0.2cm%
-\begin{minipage}{2mm}
-	\hfill
-\end{minipage}
-\begin{beamercolorbox}[wd=12cm,leftskip=11.6mm,center,#1]{date}
-  	\usebeamerfont{author}\insertdate%
-\end{beamercolorbox}
-\vfill
-}
-
-\mode
-<all>
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{sections/subsections in toc}[circle]
+\setbeamersize{text margin left=15pt,text margin right=15pt}
+\mode<all>

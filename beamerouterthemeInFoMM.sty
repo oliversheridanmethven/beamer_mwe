@@ -1,36 +1,31 @@
 \mode<presentation>
-
-
-% Frame title
-\defbeamertemplate*{frametitle}{InFoMM}[1][]
-{
-%\vskip1cm%
-%\leavevmode
-  \begin{beamercolorbox}[wd=\paperwidth,ht=1.1cm]{frametitle} 
-  \begin{tikzpicture}
-  \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
-  \ifx\insertframesubtitle\@empty%
-      {\node[anchor=west, oxblue,font=\large] at (1.2,0.61){\insertframetitle};}
-      \else%
-      {\node[anchor= west, oxblue,font=\large] at (1.2,0.81){\insertframetitle};%
-       \node[anchor= west, oxblue,font=\small] at (1.2,0.41){\insertframesubtitle};}%
-      \fi
-  \end{tikzpicture}
-  \end{beamercolorbox}
-}
-
-% Footline
-\defbeamertemplate*{footline}{InFoMM}
-{%
-  \leavevmode%
-  \hbox{
-  \begin{tikzpicture}
-  \useasboundingbox (0,0) rectangle(\the\paperwidth,1);
-  \draw[shadeblue, ultra thin] (11.6mm,6mm) -- (126mm,6mm);
-  \node[anchor= south west, oxblue,font=\fontsize{2.95mm}{1em}\selectfont] at (11.6mm,1mm){EPSRC Centre for Doctoral Training in Industrially Focused Mathematical Modelling};%
-  \end{tikzpicture}
-  }
-}
-
-
+\RequirePackage{tikz}
+\RequirePackage{graphicx}
+\RequirePackage{calc}
+\def\leftcol{0.065\paperwidth}
+\def\colpadd{0.1*\leftcol}
+\setbeamersize{sidebar width left=\leftcol}
+\setbeamertemplate{left bar}{}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{background}{
+    \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle(\paperwidth,\paperheight);
+    \fill[color=oxblue] (0,0) rectangle(\leftcol,\paperheight);
+    \shade[left color=shadeblue,right color=white] (\leftcol,\paperheight-\leftcol) rectangle(\paperwidth,\paperheight);
+    \node[anchor= west, white, rotate=90] at (0.5*\leftcol,\colpadd){\usebeamerfont{leftbar}Mathematical Institute};
+    \node[anchor= east, white, rotate=90] at (0.5*\leftcol,\paperheight-\colpadd){\usebeamerfont{leftbar}University of Oxford};
+    \node[anchor=east] at (\paperwidth,\paperheight-0.5*\leftcol){\includegraphics[height=\leftcol, keepaspectratio]{InFoMM.eps}};
+    \end{tikzpicture}}
+\setbeamertemplate{footline}{
+    \begin{beamercolorbox}[ht=4mm,center]{footline}
+    \begin{tikzpicture}
+    \useasboundingbox (0,0) rectangle(\paperwidth,\paperheight);
+    \draw[oxblue, thin] (\leftcol+\colpadd,4mm) -- (\paperwidth-\colpadd,4mm);
+    \node[anchor=center] at (\leftcol+0.5*\paperwidth-0.5*\leftcol,2mm){\usebeamerfont{footline}EPSRC Centre for Doctoral Training in Industrially Focused Mathematical Modelling};%
+    \end{tikzpicture}
+    \end{beamercolorbox}}
+\setbeamertemplate{frametitle}{
+    \begin{beamercolorbox}[ht=\leftcol]{frametitle}
+    \vbox to\leftcol{\vfil\hbox{\usebeamerfont{title}\insertframetitle}\vfil}
+    \end{beamercolorbox}}
 \mode<all>
