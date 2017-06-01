@@ -5,28 +5,41 @@
 \usepackage{bbm} % Gives Blackboard fonts.
 \usepackage{bm} % Bold math symbols.
 \usepackage[margin=0pt,font=small,labelfont=bf,labelsep=endash, justification=justified]{caption} % Caption figures and tables nicely.\\
-%\usepackage{enumitem} % Nice listing options in itemize and enumerate. % Causes issues with coloured bullets in beamer.
 \usepackage{esdiff} % Gives nice differential operators.
 \usepackage{esvect} % Gives nice vector arrows.
 \usepackage{float} % Nice figure placement.
-\usepackage{geometry} % Use nice margins.
 \usepackage{graphicx} % Include figures.
-%\usepackage[colorlinks=true,linkcolor=blue,urlcolor=blue,citecolor=blue,anchorcolor=blue]{hyperref} % Colour links.
 \usepackage{indentfirst} % Indents the first paragraph.
 \usepackage{letltxmacro} % For defining a nice SQRT symbol.
+\usepackage{lipsum} % Useful for block text.
 %\usepackage{listings} % The listings package for code.
 \usepackage[framed,numbered,autolinebreaks,useliterate]{mcode} % Inports Listings package ideal for MATLAB.
 \usepackage{multirow} % Nice table cells spanning many rows.
 \usepackage{multicol} % If I want to use multiple columns.
 \usepackage[numbers, sort&compress]{natbib} % Nice references.
 \usepackage{physics} % Nice partial derivatives and BRAKET notation.
+\usepackage{ragged2e}  % Nicer justification.
 \usepackage{subcaption} % Side by side figures.
 \usepackage{tikz} % Nice diagrams.
 \usepackage{xspace} % Gives nice spacing for commands.
+% Generally HYPERREF should be imported last.
+\usepackage{hyperref} % Colour links. % Should be used near the end.
+\usepackage{geometry} % Use nice margins. % Should be loaded after hyperref.
+
+% maming nice link colors.
+\hypersetup{colorlinks,linkcolor=blue,urlcolor=blue,citecolor=blue,anchorcolor=blue} 
 
 
+% If you want to consider serif fonts...
+%\usefonttheme{serif} % To make everything serif.
+\usefonttheme[onlymath]{serif} % To make the maths serif.
+
+% To make beamer justified.
+\justifying
+\addtobeamertemplate{block begin}{}{\justifying}
+
+% Use numbered figures.
 \setbeamertemplate{caption}[numbered]
-
 
 
 % Present the references in the order they are used.
@@ -36,9 +49,49 @@
 \renewcommand{\lstlistingname}{Code}
 
 
-
 % Giving the refereneces the right title.
 \renewcommand{\bibname}{References}
+
+% Gives the nicer SQRT symbol.
+\usepackage{letltxmacro} 
+\makeatletter
+\let\oldr@@t\r@@t
+\def\r@@t#1#2{%
+	\setbox0=\hbox{$\oldr@@t#1{#2\,}$}\dimen0=\ht0
+	\advance\dimen0-0.2\ht0
+	\setbox2=\hbox{\vrule height\ht0 depth -\dimen0}%
+	{\box0\lower0.4pt\box2}}
+\LetLtxMacro{\oldsqrt}{\sqrt}
+\renewcommand*{\sqrt}[2][\ ]{\oldsqrt[#1]{#2}}
+\makeatother
+
+% Makes beamer lists nicely justified.
+\makeatletter
+\renewcommand{\itemize}[1][]{%
+	\beamer@ifempty{#1}{}{\def\beamer@defaultospec{#1}}%
+	\ifnum \@itemdepth >2\relax\@toodeep\else
+	\advance\@itemdepth\@ne
+	\beamer@computepref\@itemdepth% sets \beameritemnestingprefix
+	\usebeamerfont{itemize/enumerate \beameritemnestingprefix body}%
+	\usebeamercolor[fg]{itemize/enumerate \beameritemnestingprefix body}%
+	\usebeamertemplate{itemize/enumerate \beameritemnestingprefix body begin}%
+	\list
+	{\usebeamertemplate{itemize \beameritemnestingprefix item}}
+	{\def\makelabel##1{%
+			{%
+				\hss\llap{{%
+						\usebeamerfont*{itemize \beameritemnestingprefix item}%
+						\usebeamercolor[fg]{itemize \beameritemnestingprefix item}##1}}%
+			}%
+		}%
+	}
+	\fi%
+	\beamer@cramped%
+	\justifying% NEW
+	%\raggedright% ORIGINAL
+	\beamer@firstlineitemizeunskip%
+}
+\makeatother
 
 
 % Removes hyphenation
@@ -47,19 +100,7 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
-% To change the spacing in lists
-%\setlist{noitemsep} % or \setlist{noitemsep} to leave space around whole list
-%\setenumerate{itemsep=-0.4em,topsep=0.5em} % Seems to look nice.
-
 % Custom column widths using C{2cm}, L, R, etc.
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
-% Gives a nice column separation in multicolumn mode.
-%\setlength{\columnsep}{5mm}
-
-% Figure environment for use in multicolumn. To put in captions use \captionof{figure}{content of caption}.
-\newenvironment{Figure}
-{\par\medskip\noindent\minipage{\linewidth}}
-{\endminipage\par\medskip}
